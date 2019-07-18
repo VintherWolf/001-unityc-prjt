@@ -1,6 +1,6 @@
 .PHONY: all compile generate clean
 
-UNITY_ROOT = c:/TDD_projects/Unity
+UNITY_ROOT = Unity/
 
 # Dependencies / Input Files
 SRC_FILES := $(wildcard *.c) $(wildcard pattern)
