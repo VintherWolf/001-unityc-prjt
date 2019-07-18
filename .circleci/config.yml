@@ -15,7 +15,13 @@ jobs:
     steps:
       - checkout
       - run:
-          command: cat DumbExample.c
+          command: |
+                    cat DumbExample.c
+                    ls
+                    ./Test_DumbExample
+                    ./Test_DumbExample.out
+                    . Test_DumbExample
+                    .Test_DumbExample
       - store_artifacts:
           path: /code/test-results
           destination: prefix
@@ -30,7 +36,7 @@ jobs:
       - run: docker build -t vintherwolf/001_unityc_prjt:$CIRCLE_SHA1 .
 
     # deploy the image 
-      - run: docker push vintherwolf/001_unityc_prjt::$CIRCLE_SHA1
+      - run: docker push vintherwolf/001_unityc_prjt:$CIRCLE_SHA1
 
 workflows:
   version: 2
