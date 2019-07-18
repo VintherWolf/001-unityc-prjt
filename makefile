@@ -8,7 +8,7 @@ BINS := $(SRC_FILES:%.c=%)
 INC_DIRS = -Isrc -I$(UNITY_ROOT)/src
 UNITY_C := $(UNITY_ROOT)/src/unity.c
 # Output File:
-TARGET_EXTENSION := .exe
+TARGET_EXTENSION := .out
 TARGET_BASE := DumbExample
 TARGET = Test_$(TARGET_BASE)$(TARGET_EXTENSION)
 
