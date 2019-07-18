@@ -1,0 +1,54 @@
+version: 2.0
+jobs:
+  compile:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run:
+          command: make
+      - store_test_results:
+          path: test-results
+  test:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run:
+          command: Test_DumbExample
+      - store_artifacts:
+          path: /code/test-results
+          destination: prefix
+  build:
+    machine: true
+    steps:
+      - checkout
+    # login to docker:
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    
+    #build the image
+      - run: docker build -t vintherwolf/001_unityc_prjt:$CIRCLE_SHA1 .
+
+    # deploy the image 
+      - run: docker push vintherwolf/001_unityc_prjt::$CIRCLE_SHA1
+
+workflows:
+  version: 2
+  jobSequence:
+    jobs:
+      - compile:
+          filters:
+            branches:
+              only:
+                - master
+      - test:
+          requires:
+            - compile
+      - build:
+          filters:
+            branches:
+              only: 
+                - master
+          requires:
+            - compile
+            - test
