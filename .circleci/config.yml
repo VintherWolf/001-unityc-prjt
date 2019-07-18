@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: make
+          command: Test_DumbExample
       - store_test_results:
           path: test-results
   test:
