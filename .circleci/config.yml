@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: Test_DumbExample
+          command: ./Test_DumbExample
       - store_test_results:
           path: test-results
   test:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: Test_DumbExample
+          command: ./Test_DumbExample
       - store_artifacts:
           path: /code/test-results
           destination: prefix
