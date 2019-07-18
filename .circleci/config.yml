@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          command: ./Test_DumbExample.out
+          command: echo "Listing all files"
       - store_test_results:
           path: test-results
   test:
