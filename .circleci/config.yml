@@ -14,7 +14,7 @@ jobs:
       - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_SHA1
   compile:
     docker:
-      - image: vintherwolf/001-unityc-prjt
+      - image: vintherwolf/001-unityc-prjt:02e28
     steps:
       - checkout
       - run:
