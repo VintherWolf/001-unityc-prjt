@@ -10,8 +10,7 @@ jobs:
                    echo "Publishing new image with build num $CIRCLE_BUILD_NUM"
                    docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-      - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM .
-      - run: docker tag vintherwolf/001-unityc-prjt:latest vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM
+      - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM -t vintherwolf/001-unityc-prjt:latest .
       - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM
       - run: docker push vintherwolf/001-unityc-prjt:latest
   compile:
