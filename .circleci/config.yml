@@ -2,26 +2,25 @@ version: 2.0
 jobs:
   compile:
     docker:
-      - image: ubuntu
-    steps:
-      - checkout
-      - run:
-          command: echo "Listing all files"
-      - store_test_results:
-          path: test-results
-  test:
-    docker:
-      - image: ubuntu
+      - image: centos:latest
     steps:
       - checkout
       - run:
           command: |
-                    cat DumbExample.c
+                    echo "Listing all files"
                     ls
-                    ./Test_DumbExample
+                    ll
+      - store_test_results:
+          path: test-results
+  test:
+    docker:
+      - image: centos:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+                     make
                     ./Test_DumbExample.out
-                    . Test_DumbExample
-                    .Test_DumbExample
       - store_artifacts:
           path: /code/test-results
           destination: prefix
