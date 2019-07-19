@@ -7,12 +7,11 @@ jobs:
     # login to docker:
       - run: 
           command: |
-                   IMAGE_TAG=${CIRCLE_TAG/D/''}
-                   echo "Publishing new image tagged $CIRCLE_TAG $IMAGE_TAG"
+                   echo "Publishing new image with build num $CIRCLE_BUILD_NUM"
                    docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-      - run: docker build -t vintherwolf/001-unityc-prjt:$IMAGE_TAG .
-      - run: docker push vintherwolf/001-unityc-prjt:$IMAGE_TAG
+      - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM .
+      - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM
       - run: docker push vintherwolf/001-unityc-prjt:latest
   compile:
     docker:
