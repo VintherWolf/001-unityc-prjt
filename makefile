@@ -19,9 +19,7 @@ CFLAGS=-std=c99
 
 all: compile 
  compile:
- 		@echo " "
 		@echo "Going to Compile now!"
-		@echo " "
 		$(CC) $(CFLAGS) $(SRC_FILES) $(UNITY_C) -o $(TARGET)
 
 generate:
