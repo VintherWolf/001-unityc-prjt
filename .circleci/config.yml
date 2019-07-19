@@ -2,7 +2,7 @@ version: 2.0
 jobs:
   compile:
     docker:
-      - image: centos:latest
+      - image: centos/devtoolset-7-toolchain-centos7
     steps:
       - checkout
       - run:
