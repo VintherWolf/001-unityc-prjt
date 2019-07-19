@@ -1,5 +1,17 @@
 version: 2.0
 jobs:
+  create-testenv:
+    machine: true
+    steps:
+      - checkout
+    # login to docker:
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    
+    #build the image
+      - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_SHA1 .
+
+    # deploy the image 
+      - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_SHA1
   compile:
     docker:
       - image: vintherwolf/001-unityc-prjt:39893e761eda62588b33d8dedbae04ffdaba887c
@@ -29,11 +41,19 @@ workflows:
   version: 2
   jobSequence:
     jobs:
+      - create-testenv:
+          filters:
+            branches:
+              only:
+                - master
       - compile:
+          requires:
+            - create-testenv
       - unit-test:
           filters:
             branches:
               only: 
                 - master
           requires:
+            - create-testenv
             - compile
