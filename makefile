@@ -6,7 +6,7 @@ UNITY_ROOT = Unity/
 SRC_FILES := $(wildcard *.c) $(wildcard pattern)
 BINS := $(SRC_FILES:%.c=%)
 INC_DIRS = -Isrc -I$(UNITY_ROOT)/src
-UNITY_C := $(UNITY_ROOT)/src/unity.c
+UNITY_C := $(UNITY_ROOT)src/unity.c
 # Output File:
 TARGET_EXTENSION := .out
 TARGET_BASE := DumbExample
@@ -19,8 +19,9 @@ CFLAGS=-std=c99
 
 all: compile 
  compile:
- 		
-		@echo "Compiling.."
+ 		@echo " "
+		@echo "Going to Compile now!"
+		@echo " "
 		$(CC) $(CFLAGS) $(SRC_FILES) $(UNITY_C) -o $(TARGET)
 
 generate:
