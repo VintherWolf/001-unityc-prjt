@@ -9,7 +9,6 @@ jobs:
           command: |
                     echo "Listing all files"
                     ls
-                    ll
       - store_test_results:
           path: test-results
   test:
