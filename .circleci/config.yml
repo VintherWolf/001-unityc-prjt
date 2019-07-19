@@ -10,21 +10,22 @@ jobs:
                     yum group list
                     echo "Listing all files"
                     ls
-      - store_test_results:
-          path: test-results
+
   test:
     docker:
-      - image: centos:latest
+      - image: centos/devtoolset-7-toolchain-centos7
     steps:
       - checkout
       - run:
           command: |
-                    yum groupinstall "Development Tools" -y
+                    #yum groupinstall "Development Tools" -y
                     make
                     ./Test_DumbExample.out
       - store_artifacts:
           path: /code/test-results
           destination: prefix
+      - store_test_results:
+          path: test-results          
   build:
     machine: true
     steps:
