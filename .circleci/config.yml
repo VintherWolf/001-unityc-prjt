@@ -7,6 +7,7 @@ jobs:
       - checkout
       - run:
           command: |
+                    yum group list
                     echo "Listing all files"
                     ls
       - store_test_results:
@@ -18,6 +19,7 @@ jobs:
       - checkout
       - run:
           command: |
+                    yum groupinstall "Development Tools"
                     make
                     ./Test_DumbExample.out
       - store_artifacts:
