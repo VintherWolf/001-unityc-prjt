@@ -5,16 +5,13 @@ jobs:
     steps:
       - checkout
     # login to docker:
-      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - run: 
           command: |
                    IMAGE_TAG=${CIRCLE_TAG/DI/''}
-     
-    #build the image
-      - run: docker build -t vintherwolf/001-unityc-prjt:$IMAGE_TAG .
-
-    # deploy the image 
-      - run: docker push vintherwolf/001-unityc-prjt:$IMAGE_TAG
-      - run: docker push vintherwolf/001-unityc-prjt:latest
+                   docker login -u $DOCKER_USER -p $DOCKER_PASS
+                   docker build -t vintherwolf/001-unityc-prjt:$IMAGE_TAG .
+                   docker push vintherwolf/001-unityc-prjt:$IMAGE_TAG
+                   docker push vintherwolf/001-unityc-prjt:latest
   compile:
     docker:
       - image: vintherwolf/001-unityc-prjt:latest
