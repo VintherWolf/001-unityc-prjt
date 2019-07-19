@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           command: |
-                     make
+                    make
                     ./Test_DumbExample.out
       - store_artifacts:
           path: /code/test-results
