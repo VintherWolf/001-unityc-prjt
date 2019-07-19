@@ -1,32 +1,6 @@
 version: 2.0
 jobs:
-  compile:
-    docker:
-      - image: centos/devtoolset-7-toolchain-centos7
-    steps:
-      - checkout
-      - run:
-          command: |
-                    yum group list
-                    echo "Listing all files"
-                    ls
-
-  test:
-    docker:
-      - image: centos/devtoolset-7-toolchain-centos7
-    steps:
-      - checkout
-      - run:
-          command: |
-                    #yum groupinstall "Development Tools" -y
-                    rhscl/devtoolset-7-toolchain-rhel7 make
-                    ./Test_DumbExample.out
-      - store_artifacts:
-          path: /code/test-results
-          destination: prefix
-      - store_test_results:
-          path: test-results          
-  build:
+  create-testenv:
     machine: true
     steps:
       - checkout
@@ -38,24 +12,50 @@ jobs:
 
     # deploy the image 
       - run: docker push vintherwolf/001_unityc_prjt:$CIRCLE_SHA1
+  compile:
+    docker:
+      - image: vintherwolf/001_unityc_prjt:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+#                    yum groupinstall "Development Tools" -y
+                    make
+                    ./Test_DumbExample.out
+      - store_artifacts:
+          path: /code/test-results
+          destination: prefix
+  unit-test:
+    docker:
+      - image: vintherwolf/001_unityc_prjt:latest
+    steps:
+      - checkout
+      - run:
+          command: |
+#                    yum groupinstall "Development Tools" -y
+                    make
+                    ./Test_DumbExample.out
+      - store_artifacts:
+          path: /code/test-results
+          destination: prefix
 
 workflows:
   version: 2
   jobSequence:
     jobs:
-      - compile:
+      - create-testenv:
           filters:
             branches:
               only:
                 - master
-      - test:
+      - compile:
           requires:
-            - compile
-      - build:
+            - create-testenv
+      - unit-test:
           filters:
             branches:
               only: 
                 - master
           requires:
+            - create-testenv
             - compile
-            - test
