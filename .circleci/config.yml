@@ -19,7 +19,7 @@ jobs:
       - checkout
       - run:
           command: |
-                    yum groupinstall "Development Tools"
+                    yum groupinstall "Development Tools" -y
                     make
                     ./Test_DumbExample.out
       - store_artifacts:
