@@ -1,8 +1,21 @@
 version: 2.0
 jobs:
+  create_testenv:
+    machine: true
+    steps:
+      - checkout
+    # login to docker:
+      - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    
+    #build the image
+      - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_TAG .
+
+    # deploy the image 
+      - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_TAG
+      - run: docker push vintherwolf/001-unityc-prjt:latest
   compile:
     docker:
-      - image: vintherwolf/001-unityc-prjt:39893e761eda62588b33d8dedbae04ffdaba887c
+      - image: vintherwolf/001-unityc-prjt:latest
     steps:
       - checkout
       - run:
@@ -12,9 +25,9 @@ jobs:
       - store_artifacts:
           path: /code/test-results
           destination: prefix
-  unit-test:
+  unit_test:
     docker:
-      - image: vintherwolf/001-unityc-prjt:39893e761eda62588b33d8dedbae04ffdaba887c
+      - image: vintherwolf/001-unityc-prjt:latest
     steps:
       - checkout
       - run:
@@ -29,11 +42,20 @@ workflows:
   version: 2
   jobSequence:
     jobs:
+      - create_testenv:
+          filters:
+            branches:
+              only: master
+            tags:
+              only: /DI.*/
       - compile:
-      - unit-test:
+          requires:
+            - create_testenv
+      - unit_test:
           filters:
             branches:
               only: 
                 - master
           requires:
+            - create_testenv
             - compile
