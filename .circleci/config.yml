@@ -14,7 +14,7 @@ jobs:
       - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_SHA1
   compile:
     docker:
-      - image: vintherwolf/001-unityc-prjt:latest
+      - image: vintherwolf/001-unityc-prjt
     steps:
       - checkout
       - run:
@@ -26,7 +26,7 @@ jobs:
           destination: prefix
   unit-test:
     docker:
-      - image: vintherwolf/001_unityc_prjt:latest
+      - image: vintherwolf/001-unityc-prjt
     steps:
       - checkout
       - run:
