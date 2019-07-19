@@ -1,6 +1,6 @@
 # Dockerfile
 
-FROM centos as unityc-prjt-testEnv
+FROM centos
 
 COPY . 001-unityc-prjt
 WORKDIR 001-unityc-prjt
