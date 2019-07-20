@@ -21,7 +21,7 @@ TEST_ASSERT_EQUAL_HEX8(33, AverageThreeBytes(33, 33, 33));
 
 void test_AverageThreeBytes_should_AverageHighValues(void)
 {
-TEST_ASSERT_EQUAL_HEX8(80, AverageThreeBytes(70, 90, 90));
+TEST_ASSERT_EQUAL_HEX8(80, AverageThreeBytes(70, 80, 90));
 TEST_ASSERT_EQUAL_HEX8(127, AverageThreeBytes(127, 127, 127));
 TEST_ASSERT_EQUAL_HEX8(84, AverageThreeBytes(0, 126, 126));
 }

@@ -5,7 +5,8 @@ jobs:
     steps:
       - checkout
     # login to docker:
-      - run: 
+      - run:
+          name: Build and Push Test Env Image to DockerHub 
           command: |
                    echo "Publishing new image with build num $CIRCLE_BUILD_NUM"
                    docker login -u $DOCKER_USER -p $DOCKER_PASS
@@ -13,30 +14,27 @@ jobs:
       - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM -t vintherwolf/001-unityc-prjt:latest .
       - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM
       - run: docker push vintherwolf/001-unityc-prjt:latest
-  compile:
+  Build_and_Test:
     docker:
       - image: vintherwolf/001-unityc-prjt:latest
     steps:
       - checkout
       - run:
-          command: |
-                    make
-                    ./Test_DumbExample.out
+          name: Compile Files
+          command: make
+      - run: 
+          name: Unit Tests
+          command: ./Test_DumbExample.out              
       - store_artifacts:
           path: /code/test-results
           destination: prefix
-  unit_test:
+  wrap_up:
     docker:
       - image: vintherwolf/001-unityc-prjt:latest
     steps:
       - checkout
       - run:
-          command: |
-                    make
-                    ./Test_DumbExample.out
-      - store_artifacts:
-          path: /code/test-results
-          destination: prefix
+          command: echo "All done"
 
 workflows:
   version: 2
@@ -47,15 +45,15 @@ workflows:
             branches:
               only: master
             tags:
-              only: /^D.*/
-      - compile:
+              only: /D.*/
+      - build_and_test:
           requires:
             - create_testenv
-      - unit_test:
+      - wrap_up:
           filters:
             branches:
               only: 
                 - master
           requires:
             - create_testenv
-            - compile
+            - build_and_test
