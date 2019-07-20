@@ -46,7 +46,7 @@ workflows:
       - create_testenv:
           filters:
             branches:
-              only: master
+              only: docker-image
             tags:
               only: /D.*/
       - build_and_test:
