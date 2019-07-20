@@ -6,15 +6,18 @@ jobs:
       - checkout
     # login to docker:
       - run:
-          name: Build and Push Test Env Image to DockerHub 
+          name: Login to DockerHub
           command: |
                    echo "Publishing new image with build num $CIRCLE_BUILD_NUM"
                    docker login -u $DOCKER_USER -p $DOCKER_PASS
 
-      - run: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM -t vintherwolf/001-unityc-prjt:latest .
-      - run: docker push vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM
-      - run: docker push vintherwolf/001-unityc-prjt:latest
-  Build_and_Test:
+      - run: 
+          name: Build Test Image
+          command: docker build -t vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM -t vintherwolf/001-unityc-prjt:latest .
+      - run: 
+          name: Push Test Iamge to DockerHub
+          command: docker push vintherwolf/001-unityc-prjt:$CIRCLE_BUILD_NUM vintherwolf/001-unityc-prjt:latest
+  build_and_test:
     docker:
       - image: vintherwolf/001-unityc-prjt:latest
     steps:
