@@ -47,16 +47,14 @@ workflows:
           filters:
             branches:
               only: docker-image
-            tags:
-              only: /D.*/
       - build_and_test:
-          requires:
-            - create_testenv
+          filters:
+            branches:
+              only: master
       - wrap_up:
           filters:
             branches:
               only: 
                 - master
           requires:
-            - create_testenv
             - build_and_test
